@@ -6,7 +6,7 @@ part of 'vote_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$voteViewModelHash() => r'8b33e89784bd8f53bf8ed65b00960558e0810718';
+String _$voteViewModelHash() => r'0d5a3b3d57e2c04873ea287e98f4b05221fabeb4';
 
 /// See also [VoteViewModel].
 @ProviderFor(VoteViewModel)

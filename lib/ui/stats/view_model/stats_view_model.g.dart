@@ -6,7 +6,7 @@ part of 'stats_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$statsViewModelHash() => r'61c4e0007fc2aecfff5890467c3ade568c20ee70';
+String _$statsViewModelHash() => r'e8ceb6512eac34ad96418d50988a6db272aecbef';
 
 /// See also [StatsViewModel].
 @ProviderFor(StatsViewModel)

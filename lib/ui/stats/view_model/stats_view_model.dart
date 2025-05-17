@@ -7,7 +7,7 @@ part 'stats_view_model.g.dart';
 @Riverpod(keepAlive: true)
 class StatsViewModel extends _$StatsViewModel {
   @override
-  FutureOr<List<Map<String, dynamic>>> build() async {
+  Future<List<Map<String, dynamic>>> build() async {
     // get all the stories from the stories repo
     final repo = ref.read(storiesRepositoryProvider);
     final stories = await repo.getAllStories();

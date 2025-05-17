@@ -23,7 +23,7 @@ class _StoryListScreenState extends ConsumerState<StoryListScreen> {
         AppBar(title: const Text('Stories'), leading: [Icon(LucideIcons.bookOpen)]),
       ],
       child: switch (viewModel) {
-        AsyncError(:final error) => Text('Error: $error'),
+        AsyncError(:final error) => Padding(padding: const EdgeInsets.all(32.0), child: Center(child: Text('Error: $error'))),
         AsyncData(:final value) => Padding(
           padding: const EdgeInsets.all(32.0),
           child: SizedBox(

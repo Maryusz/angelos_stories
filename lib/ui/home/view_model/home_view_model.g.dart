@@ -6,7 +6,7 @@ part of 'home_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$imageLoaderHash() => r'289084367100ef9f03b5fe78542e6509f8bb27e3';
+String _$imageLoaderHash() => r'59574d3a27d271b8490f3a051a0a7cdfa6f44e8c';
 
 /// See also [imageLoader].
 @ProviderFor(imageLoader)

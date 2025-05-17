@@ -20,7 +20,6 @@ class StoriesRepository {
 
   Future<List<Story>> getAllStories() async {
     final response = await _client.from('stories').select().order('id', ascending: true);
-
     return response.map((e) => Story.fromJson(e)).toList();
   }
 

@@ -7,8 +7,11 @@ part 'story_list_view_model.g.dart';
 @Riverpod(keepAlive: true)
 class StoryListViewModel extends _$StoryListViewModel {
   @override
-  FutureOr<List<Story>> build() async {
+  Future<List<Story>> build() async {
     final storiesRepository = ref.watch(storiesRepositoryProvider);
-    return await storiesRepository.getAllStories();
+
+    final stories = await storiesRepository.getAllStories();
+
+    return stories;
   }
 }

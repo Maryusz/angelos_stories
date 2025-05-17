@@ -8,7 +8,7 @@ part 'vote_view_model.g.dart';
 @Riverpod(keepAlive: true)
 class VoteViewModel extends _$VoteViewModel {
   @override
-  FutureOr<List<Vote>> build() {
+  Future<List<Vote>> build() {
     final votesRepo = ref.watch(votesRepositoryProvider);
     return votesRepo.getAll();
   }
