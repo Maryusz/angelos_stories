@@ -58,25 +58,25 @@ class _VoterState extends ConsumerState<Voter> {
 
                   final vote = Vote(storyId: widget.storyId, vote: _value);
                   final votesRepo = ref.read(votesRepositoryProvider);
-                  await votesRepo.add(vote).then((value) {
-                    if (context.mounted) {
-                      showToast(
-                        context: context,
-                        builder:
-                            (context, overlay) => SurfaceCard(
-                              child: Basic(
-                                title: const Text('Vote'),
-                                subtitle: const Text('Vote sent!'),
-                                content: const Icon(LucideIcons.check),
-                              ),
-                            ),
-                        location: ToastLocation.bottomLeft,
-                      );
-                    }
-                    ref.invalidate(votesRepositoryProvider);
+                  await votesRepo.add(vote);
 
-                    ref.read(localVoteCheckerProvider.notifier).addVote(vote);
-                  });
+                  if (context.mounted) {
+                    showToast(
+                      context: context,
+                      builder:
+                          (context, overlay) => SurfaceCard(
+                            child: Basic(
+                              title: const Text('Vote'),
+                              subtitle: const Text('Vote sent!'),
+                              content: const Icon(LucideIcons.check),
+                            ),
+                          ),
+                      location: ToastLocation.bottomLeft,
+                    );
+                  }
+                  ref.invalidate(votesRepositoryProvider);
+
+                  ref.read(localVoteCheckerProvider.notifier).addVote(vote);
                 },
               )
               : const Text('Please select a rating!'),

@@ -24,6 +24,9 @@ class StoriesRepository {
   }
 
   Future<void> addStory(Story story) async {
-    await _client.from('stories').insert(story.toJson());
+    var js = story.toJson();
+
+    js.remove('id');
+    await _client.from('stories').insert(js);
   }
 }

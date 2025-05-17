@@ -25,6 +25,8 @@ class VotesRepository {
   }
 
   Future<void> add(Vote vote) async {
+    var js = vote.toJson();
+    js.remove('id');
     await _client.from('votes').insert(vote.toJson());
   }
 }

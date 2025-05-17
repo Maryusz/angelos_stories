@@ -78,7 +78,9 @@ class HomeScreen extends ConsumerWidget {
                                     }),
                                   );
 
-                                  ref.read(homeViewModelProvider.notifier).addStory(Story.fromJson(jsonDecode(s)));
+                                  final js = jsonDecode(s);
+
+                                  ref.read(homeViewModelProvider.notifier).addStory(Story.fromJson(js));
                                 },
                               ),
                             ),
