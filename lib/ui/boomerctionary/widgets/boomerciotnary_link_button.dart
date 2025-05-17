@@ -24,7 +24,7 @@ class _BoomerciotnaryLinkButtonState extends State<BoomerciotnaryLinkButton> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [const Text('Are you a boomer?'), const Gap(16), Image.asset('assets/aimg/boomer.gif')],
+                children: [const Text('Are you a boomer?'), const Gap(16), Image.asset('assets/img/boomer.gif')],
               ),
               actions: [
                 PrimaryButton(child: const Text('No')),
