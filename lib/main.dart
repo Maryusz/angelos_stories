@@ -20,7 +20,7 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ShadcnApp.router(
       routerConfig: ref.watch(goRouterProvider),
-      theme: ThemeData(colorScheme: ColorSchemes.lightOrange(), radius: 0.8),
+      theme: ThemeData(colorScheme: ColorSchemes.lightOrange(), radius: 0.7),
     );
   }
 }
