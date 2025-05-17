@@ -122,28 +122,6 @@ class HomeScreen extends ConsumerWidget {
                 const Gap(12),
                 Text('This app is open source!').xSmall,
                 Text('You can find it on GitHub').xSmall,
-                const Gap(8),
-                PrimaryButton(
-                  child: Icon(LucideIcons.bug),
-                  onPressed:
-                      () => showDialog(
-                        context: context,
-                        builder:
-                            (context) => AlertDialog(
-                              title: const Text('Keys'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 4,
-                                children: [
-                                  const Text('Here are the keys I used to make this app.'),
-                                  const Text('Supabase URL : ${EnvService.supabaseUrl}'),
-                                  const Text('Supabase Key : ${EnvService.supabaseApiKey}'),
-                                ],
-                              ),
-                            ),
-                      ),
-                ),
               ],
             ),
           ),
