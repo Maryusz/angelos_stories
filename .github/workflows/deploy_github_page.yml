@@ -4,13 +4,12 @@ on:
     branches:
       - main
 jobs:
-  build:    
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
-      - run: flutter build web --release --base-href /angelos_stories/
+      - run: flutter build web --release --base-href /angelos_stories/ --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} --dart-define=SUPABASE_API_KEY=${{ secrets.SUPABASE_API_KEY }}
       - run: git config user.name github-actions
       - run: git config user.email github-actions@github.com
       - run: git --work-tree build/web add --all
