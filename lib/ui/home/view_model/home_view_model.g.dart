@@ -6,23 +6,7 @@ part of 'home_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$imageLoaderHash() => r'59574d3a27d271b8490f3a051a0a7cdfa6f44e8c';
-
-/// See also [imageLoader].
-@ProviderFor(imageLoader)
-final imageLoaderProvider = AutoDisposeProvider<Image>.internal(
-  imageLoader,
-  name: r'imageLoaderProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$imageLoaderHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ImageLoaderRef = AutoDisposeProviderRef<Image>;
-String _$homeViewModelHash() => r'726d7160af8b72678a7ffd2c5bcc727777191e8f';
+String _$homeViewModelHash() => r'bb73ae20804f034b7447ca4155ffa0d86afa78be';
 
 /// See also [HomeViewModel].
 @ProviderFor(HomeViewModel)

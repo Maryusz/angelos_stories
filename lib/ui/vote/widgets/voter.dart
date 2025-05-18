@@ -24,62 +24,62 @@ class _VoterState extends ConsumerState<Voter> {
 
   @override
   Widget build(BuildContext context) {
-    return Basic(
-      title: Text('Vote'),
-      subtitle: StarRating(
-        value: _value,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      runAlignment: WrapAlignment.center,
+      runSpacing: 8,
+      spacing: 8,
+      children: [
+        Text('Vote').bold,
+        StarRating(
+          value: _value,
 
-        onChanged: (value) async {
-          // This avoids the movement of the layout while voting
-          Future.delayed(const Duration(milliseconds: 100));
-          _onChanged(value);
-        },
-      ),
-      content:
-          _value != 0
-              ? OutlineButton(
-                child: Icon(LucideIcons.send),
-                onPressed: () async {
-                  if (ref.read(localVoteCheckerProvider).any((vote) => vote.storyId == widget.storyId)) {
-                    showToast(
-                      context: context,
-                      builder:
-                          (context, overlay) => SurfaceCard(
-                            child: Basic(
-                              title: const Text('Vote'),
-                              subtitle: const Text('You already voted!'),
-                              content: const Icon(LucideIcons.x),
-                            ),
-                          ),
-                      location: ToastLocation.bottomLeft,
-                    );
-                    return;
-                  }
+          onChanged: (value) async {
+            // This avoids the movement of the layout while voting
+            Future.delayed(const Duration(milliseconds: 100));
+            _onChanged(value);
+          },
+        ),
+        PrimaryButton(
+          child: Icon(LucideIcons.send),
+          onPressed: () async {
+            if (ref.read(localVoteCheckerProvider).any((vote) => vote.storyId == widget.storyId)) {
+              showToast(
+                context: context,
+                builder:
+                    (context, overlay) => SurfaceCard(
+                      child: Basic(
+                        title: const Text('Vote'),
+                        subtitle: const Text('You already voted!'),
+                        content: const Icon(LucideIcons.x),
+                      ),
+                    ),
+                location: ToastLocation.bottomLeft,
+              );
+              return;
+            }
 
-                  final vote = Vote(storyId: widget.storyId, vote: _value);
-                  final votesRepo = ref.read(votesRepositoryProvider);
-                  await votesRepo.add(vote);
+            final vote = Vote(storyId: widget.storyId, vote: _value);
+            final votesRepo = ref.read(votesRepositoryProvider);
+            await votesRepo.add(vote);
 
-                  if (context.mounted) {
-                    showToast(
-                      context: context,
-                      builder:
-                          (context, overlay) => SurfaceCard(
-                            child: Basic(
-                              title: const Text('Vote'),
-                              subtitle: const Text('Vote sent!'),
-                              content: const Icon(LucideIcons.check),
-                            ),
-                          ),
-                      location: ToastLocation.bottomLeft,
-                    );
-                  }
-                  ref.invalidate(votesRepositoryProvider);
+            if (context.mounted) {
+              showToast(
+                context: context,
+                builder:
+                    (context, overlay) => SurfaceCard(
+                      child: Basic(title: const Text('Vote'), subtitle: const Text('Vote sent!'), content: const Icon(LucideIcons.check)),
+                    ),
+                location: ToastLocation.bottomLeft,
+              );
+            }
+            ref.invalidate(votesRepositoryProvider);
 
-                  ref.read(localVoteCheckerProvider.notifier).addVote(vote);
-                },
-              )
-              : const Text('Please select a rating!'),
+            ref.read(localVoteCheckerProvider.notifier).addVote(vote);
+          },
+        ),
+      ],
     );
   }
 }

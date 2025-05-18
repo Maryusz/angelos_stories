@@ -5,10 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import 'package:angelos_stories/domain/models/story.dart';
-import 'package:angelos_stories/ui/boomerctionary/widgets/boomerciotnary_link_button.dart';
 import 'package:angelos_stories/ui/home/view_model/home_view_model.dart';
 import 'package:angelos_stories/ui/home/widgets/add_story_dialog.dart';
-import 'package:angelos_stories/utils/env_service.dart';
+import 'package:angelos_stories/ui/home/widgets/animated_button.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -37,78 +36,71 @@ class HomeScreen extends ConsumerWidget {
               spacing: 8,
               children: [
                 Text('Angelo\'s Stories').x6Large,
+
+                Image.asset('assets/img/anoldmanstalking.gif', cacheHeight: 300, cacheWidth: 400),
                 Text('Every story comes from a man who wants to tell it, whether you want it or not.').thin,
                 Text('- Angelo R.').xSmall,
-                AnimatedContainer(duration: Duration(milliseconds: 1500), child: ref.watch(imageLoaderProvider)),
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: SizedBox(
                       width: 600,
-                      height: 128,
+                      height: 160,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Expanded(
-                            child: MouseRegion(
-                              onHover: (event) => ref.read(homeViewModelProvider.notifier).choice(1),
-                              onExit: (event) => ref.read(homeViewModelProvider.notifier).choice(0),
-                              child: PrimaryButton(
-                                leading: Icon(LucideIcons.feather),
+                            child: AnimatedButton(
+                              title: 'I am Angelo',
+                              icon: LucideIcons.feather,
+                              image: 'assets/img/newstory.gif',
+                              backgroundColor: Colors.orange,
+                              textColor: Colors.white,
+                              onPressed: () async {
+                                final story = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AddStoryDialog();
+                                  },
+                                );
 
-                                child: Basic(title: Text('I am Angelo').mono, titleSpacing: 16),
-                                onPressed: () async {
-                                  final story = await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AddStoryDialog();
-                                    },
-                                  );
+                                if (story == null && context.mounted) {
+                                  _showToast(context);
+                                  return;
+                                }
 
-                                  if (story == null && context.mounted) {
-                                    _showToast(context);
-                                    return;
-                                  }
+                                final s = jsonEncode(
+                                  story.map((key, value) {
+                                    return MapEntry(key.key, value);
+                                  }),
+                                );
 
-                                  final s = jsonEncode(
-                                    story.map((key, value) {
-                                      return MapEntry(key.key, value);
-                                    }),
-                                  );
+                                final js = jsonDecode(s);
 
-                                  final js = jsonDecode(s);
-
-                                  ref.read(homeViewModelProvider.notifier).addStory(Story.fromJson(js));
-                                },
-                              ),
+                                ref.read(homeViewModelProvider.notifier).addStory(Story.fromJson(js));
+                              },
                             ),
                           ),
                           Expanded(
-                            child: MouseRegion(
-                              onHover: (event) => ref.read(homeViewModelProvider.notifier).choice(2),
-                              onExit: (event) => ref.read(homeViewModelProvider.notifier).choice(0),
-                              child: PrimaryButton(
-                                leading: Icon(LucideIcons.bookHeart),
-
-                                onHover: (value) {
-                                  ref.read(homeViewModelProvider.notifier).choice(2);
-                                },
-                                onPressed: () => context.pushReplacementNamed('stories'),
-                                child: Basic(title: Text('I\'m not Angelo').mono, titleSpacing: 16),
-                              ),
+                            child: AnimatedButton(
+                              title: 'I\'m not Angelo',
+                              icon: LucideIcons.bookHeart,
+                              image: 'assets/img/stories.gif',
+                              backgroundColor: Colors.orange,
+                              textColor: Colors.white,
+                              onPressed: () => context.pushReplacementNamed('stories'),
                             ),
                           ),
                           Expanded(
-                            child: MouseRegion(
-                              onHover: (event) => ref.read(homeViewModelProvider.notifier).choice(3),
-                              onExit: (event) => ref.read(homeViewModelProvider.notifier).choice(0),
-                              child: PrimaryButton(
-                                leading: Icon(LucideIcons.chartArea),
-                                onPressed: () => context.pushReplacementNamed('stats'),
-                                child: Basic(title: Text('Stats').mono, titleSpacing: 16),
-                              ),
+                            child: AnimatedButton(
+                              title: 'Stats',
+                              icon: LucideIcons.chartArea,
+                              image: 'assets/img/poster.gif',
+                              backgroundColor: Colors.orange,
+                              textColor: Colors.white,
+                              onPressed: () async => context.pushReplacementNamed('stats'),
                             ),
                           ),
                         ],
@@ -116,12 +108,44 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                MouseRegion(
-                  onHover: (event) => ref.read(homeViewModelProvider.notifier).choice(4),
-                  onExit: (event) => ref.read(homeViewModelProvider.notifier).choice(0),
-                  child: BoomerciotnaryLinkButton(),
+
+                SizedBox(
+                  width: 300,
+                  height: 150,
+                  child: AnimatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Boomerctionary'),
+
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [const Text('Are you a boomer?'), const Gap(16), Image.asset('assets/img/boomer.gif')],
+                            ),
+                            actions: [
+                              PrimaryButton(child: const Text('No')),
+                              SecondaryButton(
+                                onPressed: () {
+                                  context.pushReplacementNamed('boomerctionary');
+                                },
+                                child: const Text('Yes'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    textColor: Colors.white,
+                    title: "Am I a boomer?",
+                    icon: LucideIcons.badgeInfo,
+                    image: 'assets/img/boomerctionary.gif',
+                    backgroundColor: Colors.orange,
+                  ),
                 ),
-                const Gap(12),
+
                 Text('This app is open source!').xSmall,
                 Text('You can find it on GitHub').xSmall,
               ],
