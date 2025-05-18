@@ -16,29 +16,35 @@ class StatsScreen extends ConsumerWidget {
       ],
       child: Padding(
         padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
+          shrinkWrap: true,
           children: [
-            const Text('Stats'),
-            const Gap(16),
             Image.asset('assets/img/stats.gif'),
-            Gap(12),
-            Expanded(
-              child: switch (averageVote) {
-                AsyncError(:final error) => Text("$error"),
-                AsyncData(:final value) => Chart(
-                  data: value,
+            switch (averageVote) {
+              AsyncError(:final error) => Center(child: Padding(padding: const EdgeInsets.all(32.0), child: Text('Error: $error'))),
+              AsyncData(:final value) =>
+                value.isEmpty
+                    ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [const Text('No votes'), Image.asset('assets/img/nothing.gif')],
+                        ),
+                      ),
+                    )
+                    : Chart(
+                      data: value,
 
-                  variables: {
-                    'title': Variable(accessor: (Map map) => map['title'] as String),
-                    'vote': Variable(accessor: (Map map) => map['vote'] as num, scale: LinearScale(min: 0, max: 5)),
-                  },
-                  marks: [IntervalMark()],
-                  axes: [Defaults.horizontalAxis, Defaults.verticalAxis],
-                ),
-                _ => SizedBox(height: 50, width: 50, child: Center(child: const CircularProgressIndicator())),
-              },
-            ),
+                      variables: {
+                        'title': Variable(accessor: (Map map) => map['title'] as String),
+                        'vote': Variable(accessor: (Map map) => map['vote'] as num, scale: LinearScale(min: 0, max: 5)),
+                      },
+                      marks: [IntervalMark()],
+                      axes: [Defaults.horizontalAxis, Defaults.verticalAxis],
+                    ),
+              _ => SizedBox(height: 50, width: 50, child: Center(child: const CircularProgressIndicator())),
+            },
           ],
         ),
       ),

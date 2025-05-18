@@ -32,13 +32,17 @@ class _AnimatedButtonState extends ConsumerState<AnimatedButton> {
       key: UniqueKey(),
       decoration: BoxDecoration(color: widget.backgroundColor, borderRadius: BorderRadius.circular(8)),
       child: Center(
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          runAlignment: WrapAlignment.center,
-          alignment: WrapAlignment.center,
-          spacing: 8,
-          runSpacing: 8,
-          children: [Icon(widget.icon, color: widget.textColor), Text(widget.title ?? '', style: TextStyle(color: widget.textColor))],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runAlignment: WrapAlignment.center,
+            alignment: WrapAlignment.center,
+
+            spacing: 8,
+            runSpacing: 8,
+            children: [Icon(widget.icon, color: widget.textColor), Text(widget.title ?? '', style: TextStyle(color: widget.textColor))],
+          ),
         ),
       ),
     );
@@ -54,13 +58,16 @@ class _AnimatedButtonState extends ConsumerState<AnimatedButton> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Center(
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          runAlignment: WrapAlignment.center,
-          alignment: WrapAlignment.center,
-          spacing: 8,
-          runSpacing: 8,
-          children: [Icon(widget.icon, color: widget.textColor), Text(widget.title ?? '', style: TextStyle(color: widget.textColor))],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runAlignment: WrapAlignment.center,
+            alignment: WrapAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
+            children: [Icon(widget.icon, color: widget.textColor), Text(widget.title ?? '', style: TextStyle(color: widget.textColor))],
+          ),
         ),
       ),
     );

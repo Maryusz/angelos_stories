@@ -22,37 +22,32 @@ class BoomerctionaryScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text('Boomerctionary'),
-            const Gap(16),
             Image.asset('assets/img/boomerctionary.gif', cacheHeight: 300, cacheWidth: 400),
-            const Gap(12),
             const Text('Here you can find some references if you don\'t understand the references.').italic,
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(8),
 
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(8),
-
-                itemCount: boomerctionary.length,
-                itemBuilder: (context, index) {
-                  final definition = boomerctionary[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SurfaceCard(
-                      child: std.ListTile(
-                        title: Text(definition.title),
-                        subtitle: Text(definition.description),
-                        trailing: SecondaryButton(
-                          child: Icon(LucideIcons.externalLink),
-                          onPressed: () {
-                            launchUrl(definition.videoUrl!, mode: LaunchMode.externalApplication);
-                          },
-                        ),
+              itemCount: boomerctionary.length,
+              itemBuilder: (context, index) {
+                final definition = boomerctionary[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SurfaceCard(
+                    child: std.ListTile(
+                      title: Text(definition.title),
+                      subtitle: Text(definition.description),
+                      trailing: SecondaryButton(
+                        child: Icon(LucideIcons.externalLink),
+                        onPressed: () {
+                          launchUrl(definition.videoUrl!, mode: LaunchMode.externalApplication);
+                        },
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
         ),

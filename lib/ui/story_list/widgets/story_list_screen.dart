@@ -31,7 +31,7 @@ class _StoryListScreenState extends ConsumerState<StoryListScreen> {
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [const Text('No stories'), const Gap(16), Image.asset('assets/img/nostory.gif'), const Gap(12)],
+                    children: [const Text('No stories'), const Gap(16), Image.asset('assets/img/nothing.gif'), const Gap(12)],
                   ),
                 ),
               )
