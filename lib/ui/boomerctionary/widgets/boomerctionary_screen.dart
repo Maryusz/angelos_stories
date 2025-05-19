@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' as std;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,7 +15,12 @@ class BoomerctionaryScreen extends ConsumerWidget {
     final boomerctionary = ref.watch(boomerctionaryDefinitionsProvider);
     return Scaffold(
       headers: [
-        AppBar(title: const Text('Boomerctionary'), leading: [Icon(LucideIcons.bookPlus)]),
+        AppBar(
+          title: const Text('Boomerctionary'),
+          leading: [OutlineButton(child: Icon(LucideIcons.arrowLeft), onPressed: () => context.pop())],
+
+          trailing: [Icon(LucideIcons.bookPlus)],
+        ),
       ],
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -24,30 +30,32 @@ class BoomerctionaryScreen extends ConsumerWidget {
             const Text('Boomerctionary'),
             Image.asset('assets/img/boomerctionary.gif', cacheHeight: 300, cacheWidth: 400),
             const Text('Here you can find some references if you don\'t understand the references.').italic,
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(8),
+            std.Flexible(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(8),
 
-              itemCount: boomerctionary.length,
-              itemBuilder: (context, index) {
-                final definition = boomerctionary[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SurfaceCard(
-                    child: std.ListTile(
-                      title: Text(definition.title),
-                      subtitle: Text(definition.description),
-                      trailing: SecondaryButton(
-                        child: Icon(LucideIcons.externalLink),
-                        onPressed: () {
-                          launchUrl(definition.videoUrl!, mode: LaunchMode.externalApplication);
-                        },
+                itemCount: boomerctionary.length,
+                itemBuilder: (context, index) {
+                  final definition = boomerctionary[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SurfaceCard(
+                      child: std.ListTile(
+                        title: Text(definition.title),
+                        subtitle: Text(definition.description),
+                        trailing: SecondaryButton(
+                          child: Icon(LucideIcons.externalLink),
+                          onPressed: () {
+                            launchUrl(definition.videoUrl!, mode: LaunchMode.externalApplication);
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),

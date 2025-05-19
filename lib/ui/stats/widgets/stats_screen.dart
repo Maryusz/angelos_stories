@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graphic/graphic.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -12,39 +13,47 @@ class StatsScreen extends ConsumerWidget {
     final averageVote = ref.watch(statsViewModelProvider);
     return Scaffold(
       headers: [
-        AppBar(title: const Text('Stats'), leading: [Icon(LucideIcons.chartArea)]),
+        AppBar(
+          title: const Text('Stats'),
+          leading: [OutlineButton(child: Icon(LucideIcons.arrowLeft), onPressed: () => context.pop())],
+          trailing: [Icon(LucideIcons.chartArea)],
+        ),
       ],
       child: Padding(
         padding: const EdgeInsets.all(32.0),
-        child: ListView(
-          shrinkWrap: true,
+        child: Column(
           children: [
-            Image.asset('assets/img/stats.gif'),
-            switch (averageVote) {
-              AsyncError(:final error) => Center(child: Padding(padding: const EdgeInsets.all(32.0), child: Text('Error: $error'))),
-              AsyncData(:final value) =>
-                value.isEmpty
-                    ? Center(
-                      child: Padding(
+            Image.asset('assets/img/stats.gif', width: 300, height: 200),
+            Expanded(
+              child: switch (averageVote) {
+                AsyncError(:final error) => Center(child: Padding(padding: const EdgeInsets.all(32.0), child: Text('Error: $error'))),
+                AsyncData(:final value) =>
+                  value.isEmpty
+                      ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [const Text('No votes'), Image.asset('assets/img/nothing.gif')],
+                          ),
+                        ),
+                      )
+                      : Padding(
                         padding: const EdgeInsets.all(32.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [const Text('No votes'), Image.asset('assets/img/nothing.gif')],
+                        child: Chart(
+                          data: value,
+
+                          variables: {
+                            'title': Variable(accessor: (Map map) => map['title'] as String),
+                            'vote': Variable(accessor: (Map map) => map['vote'] as num, scale: LinearScale(min: 0, max: 5)),
+                          },
+                          marks: [IntervalMark()],
+                          axes: [Defaults.horizontalAxis, Defaults.verticalAxis],
                         ),
                       ),
-                    )
-                    : Chart(
-                      data: value,
-
-                      variables: {
-                        'title': Variable(accessor: (Map map) => map['title'] as String),
-                        'vote': Variable(accessor: (Map map) => map['vote'] as num, scale: LinearScale(min: 0, max: 5)),
-                      },
-                      marks: [IntervalMark()],
-                      axes: [Defaults.horizontalAxis, Defaults.verticalAxis],
-                    ),
-              _ => SizedBox(height: 50, width: 50, child: Center(child: const CircularProgressIndicator())),
-            },
+                _ => SizedBox(height: 50, width: 50, child: Center(child: const CircularProgressIndicator())),
+              },
+            ),
           ],
         ),
       ),

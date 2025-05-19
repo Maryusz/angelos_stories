@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:angelos_stories/domain/models/story.dart';
 import 'package:angelos_stories/ui/home/view_model/home_view_model.dart';
@@ -90,7 +91,7 @@ class HomeScreen extends ConsumerWidget {
                               image: 'assets/img/stories.gif',
                               backgroundColor: Colors.orange,
                               textColor: Colors.white,
-                              onPressed: () => context.pushReplacementNamed('stories'),
+                              onPressed: () => context.pushNamed('stories'),
                             ),
                           ),
                           Expanded(
@@ -100,7 +101,7 @@ class HomeScreen extends ConsumerWidget {
                               image: 'assets/img/poster.gif',
                               backgroundColor: Colors.orange,
                               textColor: Colors.white,
-                              onPressed: () async => context.pushReplacementNamed('stats'),
+                              onPressed: () async => context.pushNamed('stats'),
                             ),
                           ),
                         ],
@@ -126,10 +127,17 @@ class HomeScreen extends ConsumerWidget {
                               children: [const Text('Are you a boomer?'), const Gap(16), Image.asset('assets/img/boomer.gif')],
                             ),
                             actions: [
-                              PrimaryButton(child: const Text('No')),
+                              DestructiveButton(
+                                onPressed: () {
+                                  context.pushNamed('boomerctionary');
+                                  context.pop();
+                                },
+                                child: const Text('No (Yes)'),
+                              ),
                               SecondaryButton(
                                 onPressed: () {
-                                  context.pushReplacementNamed('boomerctionary');
+                                  context.pushNamed('boomerctionary');
+                                  context.pop();
                                 },
                                 child: const Text('Yes'),
                               ),
@@ -145,9 +153,14 @@ class HomeScreen extends ConsumerWidget {
                     backgroundColor: Colors.orange,
                   ),
                 ),
-
+                const Gap(16),
                 Text('This app is open source!').xSmall,
-                Text('You can find it on GitHub').xSmall,
+
+                OutlineButton(
+                  trailing: const Icon(LucideIcons.github),
+                  child: const Text('GitHub'),
+                  onPressed: () => launchUrl(Uri.parse('https://github.com/Maryusz/angelos_stories')),
+                ),
               ],
             ),
           ),
